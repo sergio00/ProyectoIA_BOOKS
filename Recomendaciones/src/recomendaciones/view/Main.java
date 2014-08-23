@@ -1,38 +1,12 @@
 package recomendaciones.view;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.AbstractButton;
-import javax.swing.InputVerifier;
-import javax.swing.JComponent;
-import javax.swing.JOptionPane;
-import javax.swing.UIManager;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.JDesktopPane;
-
-import java.awt.SystemColor;
-import java.awt.event.ActionListener;
+import java.awt.Font;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-
-import javax.swing.event.MenuKeyListener;
-import javax.swing.event.MenuKeyEvent;
-
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
-import javax.swing.JLabel;
-
-import java.awt.Font;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -41,28 +15,33 @@ import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.swing.JButton;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.JRadioButton;
-import javax.swing.JScrollBar;
-import javax.swing.JTextField;
-import javax.swing.JCheckBox;
+import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
-
-import recomendaciones.base.*;
-import recomendaciones.jess.*;
-import recomendaciones.model.*;
-import jess.*;
-
-import java.awt.Rectangle;
-
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.UIManager;
+import javax.swing.border.EmptyBorder;
+
+import jess.JessException;
+import recomendaciones.base.BasesDeDatos;
+import recomendaciones.base.Conexion;
+import recomendaciones.jess.RecommendEngine;
 
 public class Main extends JFrame {
 
 	private JPanel contentPane;
-	private JPanel panel1, panel2, panel3, panel4, panel5, panel6, panel2_1;
+	private JPanel panelMenuPrincipal, panel2, panel3, panel4, panel5, panel6, panel2_1,panelExpert;
 	private JButton btnReader, btnExpert, btnNext, btnNext_1, btnNext_2, btnNext_3, btnNext_2_1;
 	private JScrollPane scrollPane_2, scrollPane_2_1; 
 	
@@ -510,8 +489,8 @@ public class Main extends JFrame {
 		panel3.setLayout(gl_panel3);
 		panel3.setVisible(false);
 		
-		panel1 = new JPanel();
-		panel1.setBounds(0, 0, 575, 375);
+		panelMenuPrincipal = new JPanel();
+		panelMenuPrincipal.setBounds(0, 0, 575, 375);
 		
 		lbl1_1 = new JLabel("Welcome new user to the system that will recommend you a book.");
 		lbl1_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -523,7 +502,7 @@ public class Main extends JFrame {
 		
 		btnExpert = new JButton("Expert");
 		
-		GroupLayout gl_panel1 = new GroupLayout(panel1);
+		GroupLayout gl_panel1 = new GroupLayout(panelMenuPrincipal);
 		gl_panel1.setHorizontalGroup(
 			gl_panel1.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel1.createSequentialGroup()
@@ -550,7 +529,7 @@ public class Main extends JFrame {
 						.addComponent(btnExpert))
 					.addGap(29))
 		);
-		panel1.setLayout(gl_panel1);
+		panelMenuPrincipal.setLayout(gl_panel1);
 		
 //		panel3 = new Reader_esLector();
 //		panel3.setBounds(20, 20, 444, 350);
@@ -560,7 +539,7 @@ public class Main extends JFrame {
 //		panel2.setBounds(20, 20, 444, 350);
 //		panel2.setVisible(false);
 		
-		contentPane.add(panel1);
+		contentPane.add(panelMenuPrincipal);
 		
 		scrollPane_2_1 = new JScrollPane();
 		scrollPane_2_1.setViewportBorder(null);
@@ -1103,7 +1082,7 @@ public class Main extends JFrame {
 	private void createEventPersonalidad(){
 		btnNext.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				panel1.setVisible(false);
+				panelMenuPrincipal.setVisible(false);
 				scrollPane_2.setVisible(false);
 				panel2.setVisible(false);
 				scrollPane_2_1.setVisible(true);
@@ -1155,7 +1134,7 @@ public class Main extends JFrame {
 		
 		btnNext_2_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				panel1.setVisible(false);
+				panelMenuPrincipal.setVisible(false);
 				scrollPane_2.setVisible(false);
 				panel2.setVisible(false);
 				scrollPane_2_1.setVisible(false);
@@ -1238,7 +1217,7 @@ public class Main extends JFrame {
 				
 				//System.out.println("List of recommendations" + recommendThemes);
 				
-				panel1.setVisible(false);
+				panelMenuPrincipal.setVisible(false);
 				scrollPane_2.setVisible(false);
 				panel2.setVisible(false);
 				scrollPane_2_1.setVisible(false);
@@ -1262,7 +1241,7 @@ public class Main extends JFrame {
 	private void createEventGenre(){
 		btnNext_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				panel1.setVisible(false);
+				panelMenuPrincipal.setVisible(false);
 				scrollPane_2.setVisible(false);
 				panel2.setVisible(false);
 				scrollPane_2_1.setVisible(false);
@@ -1293,7 +1272,7 @@ public class Main extends JFrame {
 	private void createEventTheme(){
 		btnNext_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				panel1.setVisible(false);
+				panelMenuPrincipal.setVisible(false);
 				scrollPane_2.setVisible(false);
 				panel2.setVisible(false);
 				scrollPane_2_1.setVisible(false);
@@ -1418,7 +1397,7 @@ public class Main extends JFrame {
 	private void createEvents(){
 		btnReader.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				panel1.setVisible(false);
+				panelMenuPrincipal.setVisible(false);
 				scrollPane_2.setVisible(true);
 				panel2.setVisible(true);
 				scrollPane_2_1.setVisible(false);
@@ -1427,6 +1406,13 @@ public class Main extends JFrame {
 				panel4.setVisible(false);
 				panel5.setVisible(false);
 				panel6.setVisible(false);
+			}
+		});
+		
+		btnExpert.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				panelMenuPrincipal.setVisible(false);
+				panelExpert.setVisible(true);
 			}
 		});
 	
